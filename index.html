@@ -1,21 +1,402 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
   <meta charset="UTF-8" />
   <link rel="icon" type="image/png" href="/favicon.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Palm Las Vegas | Classic American Steakhouse</title>
+
+  <!-- FONTS: High-End Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700;900&display=swap"
     rel="stylesheet">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Palm Las Vegas | Classic American Steakhouse</title>
+
+  <!-- TAILWIND CSS: Luxury Design System -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'palm-black': '#111111',
+            'palm-gold': '#D4AF37',
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          backgroundImage: {
+            'hero-gradient': 'linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.9))',
+          }
+        }
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer base {
+            body { @apply bg-[#111] text-white overflow-x-hidden antialiased; }
+        }
+        @layer components {
+            .btn { @apply px-8 py-4 rounded-md uppercase font-bold tracking-[3px] text-[11px] transition-all duration-500 inline-block text-center border-2; }
+            .btn-gold { @apply bg-[#D4AF37] border-[#D4AF37] text-black hover:bg-transparent hover:text-[#D4AF37]; }
+            .btn-outline { @apply border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black; }
+            .nav-link { @apply text-[11px] uppercase tracking-[3px] text-white/80 hover:text-[#D4AF37] transition-all duration-300 relative font-medium; }
+            .nav-link::after { @apply content-[''] absolute -bottom-2 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#D4AF37] transition-all duration-300; }
+            .nav-link:hover::after { @apply w-full; }
+            .caricature-item { @apply min-w-[280px] h-[380px] bg-white text-black font-serif text-3xl flex items-center justify-center shadow-2xl border-[16px] border-white transition-all duration-700 hover:rotate-0 hover:scale-110 snap-center; }
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in { animation: fadeIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    </style>
 </head>
 
-<body class="bg-[#111] text-white overflow-x-hidden">
-  <div id="app"></div>
-  <script type="module" src="/src/main.js"></script>
+<body class="font-sans">
+
+  <!-- HEADER: Dynamic Sticky -->
+  <header id="main-header"
+    class="fixed top-0 left-0 w-full px-12 py-8 z-[1000] flex justify-between items-center transition-all duration-700 bg-transparent overflow-hidden">
+    <a href="/" class="z-50 group flex items-center gap-4">
+      <img src="/src/assets/logo.png" alt="Logo"
+        class="h-12 brightness-200 transition-all duration-500 group-hover:scale-105">
+    </a>
+    <nav class="hidden lg:block">
+      <ul class="flex gap-12">
+        <li><a href="#hero" class="nav-link">Private Dining</a></li>
+        <li><a href="#menus" class="nav-link">Menus</a></li>
+        <li><a href="#location" class="nav-link">Location</a></li>
+        <li><a href="#caricatures" class="nav-link">Our Heritage</a></li>
+      </ul>
+    </nav>
+    <div class="flex items-center gap-8">
+      <a href="tel:7027327256"
+        class="hidden xl:block text-[11px] tracking-[2px] font-bold text-white/50 hover:text-white transition-colors">(702)
+        732-7256</a>
+      <a href="#reservations" class="btn btn-gold hidden sm:block">Reservations</a>
+    </div>
+  </header>
+
+  <!-- HERO: Cinematic Background Video -->
+  <section id="hero" class="relative h-screen flex items-center justify-center text-center overflow-hidden">
+    <div class="absolute inset-0 bg-hero-gradient z-10"></div>
+    <video id="hero-video" autoplay muted loop playsinline
+      class="absolute inset-0 w-full h-full object-cover z-0 grayscale-[0.2] brightness-[0.4] transition-opacity duration-1000 opacity-0">
+      <source
+        src="https://assets.mixkit.co/videos/preview/mixkit-pouring-red-wine-into-a-glass-in-a-restaurant-4447-large.mp4"
+        type="video/mp4">
+    </video>
+
+    <div class="relative z-20 max-w-5xl px-8 animate-fade-in opacity-0">
+      <div class="inline-block px-4 py-1 border border-[#D4AF37]/50 mb-8">
+        <p class="text-[#D4AF37] tracking-[8px] uppercase font-bold text-[10px]">A Las Vegas Tradition Since 1993</p>
+      </div>
+      <h1 class="font-serif text-7xl md:text-[10rem] mb-12 leading-[0.85] tracking-tight">The Palm<br><span
+          class="text-[#D4AF37]">Las Vegas</span></h1>
+      <p class="text-xl md:text-2xl text-white/60 mb-14 max-w-3xl mx-auto font-light leading-relaxed tracking-wide">
+        Located in The Forum Shops at Caesars, experience our world-famous Prime Steaks, Jumbos Nova Scotia Lobsters,
+        and a heritage of legendary hospitality.</p>
+      <div class="flex flex-col sm:flex-row justify-center gap-6">
+        <a href="#menus" class="btn btn-gold">View The Menus</a>
+        <a href="#location" class="btn btn-outline border-white text-white hover:bg-white hover:text-black">Plan Your
+          Visit</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESERVATIONS: Modular Widget -->
+  <section id="reservations" class="relative -mt-28 z-30 px-6 pb-20">
+    <div
+      class="bg-palm-black/90 backdrop-blur-2xl p-12 rounded-3xl border border-white/10 shadow-[0_50px_100px_-20px_rgba(0,0,0,1)] max-w-6xl mx-auto flex flex-wrap lg:flex-nowrap gap-10 items-end justify-center">
+      <div class="flex flex-col gap-4 flex-1 min-w-[240px]">
+        <label class="text-[10px] uppercase font-bold text-[#D4AF37] tracking-[4px]">Location</label>
+        <div class="bg-black/40 border border-white/10 p-4 rounded-xl text-sm text-white/90">The Forum Shops at Caesars
+          Palace</div>
+      </div>
+      <div class="flex flex-col gap-4 flex-1 min-w-[240px]">
+        <label class="text-[10px] uppercase font-bold text-[#D4AF37] tracking-[4px]">Dining Date</label>
+        <input type="date"
+          class="bg-black/40 border border-white/10 p-4 rounded-xl text-sm text-white/90 outline-none focus:border-[#D4AF37] appearance-none"
+          value="2026-03-22">
+      </div>
+      <div class="flex flex-col gap-4 flex-1 min-w-[240px]">
+        <label class="text-[10px] uppercase font-bold text-[#D4AF37] tracking-[4px]">Party Size</label>
+        <select
+          class="bg-black/40 border border-white/10 p-4 rounded-xl text-sm text-white/90 outline-none focus:border-[#D4AF37] w-full">
+          <option>2 Seating Guests</option>
+          <option>3 Guests</option>
+          <option>4 Guests</option>
+          <option>5+ Large Group</option>
+        </select>
+      </div>
+      <button class="btn btn-gold h-[60px] w-full lg:w-auto px-12 group">
+        <span class="group-hover:translate-x-1 transition-transform inline-block">Find Availablity</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- SIGNATURES: Modular Luxury Grid -->
+  <section id="menus" class="py-48 px-12 bg-[#0a0a0a] relative">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col items-center mb-32 text-center">
+        <span class="text-[#D4AF37] uppercase tracking-[6px] text-xs font-black mb-6">Culinary Excellence</span>
+        <h2 class="font-serif text-5xl md:text-7xl mb-12 drop-shadow-lg">A Cut Above The Rest</h2>
+        <div class="w-32 h-0.5 bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent opacity-60"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-16">
+        <div
+          class="group relative overflow-hidden rounded-2xl shadow-3xl bg-[#111] p-6 border border-white/5 transition-all hover:border-[#D4AF37]/20">
+          <div class="aspect-[4/5] overflow-hidden rounded-xl mb-10 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1546241072-48010ad2862c?auto=format&fit=crop&q=80&w=800"
+              class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
+          </div>
+          <div class="px-2">
+            <h3 class="font-serif text-3xl text-[#D4AF37] mb-4">Prime Aged Steaks</h3>
+            <p class="text-white/40 text-[15px] font-light leading-relaxed mb-6">Heavy corn-fed USDA Prime Aged beef,
+              selected for superior marbling & flavor.</p>
+            <a href="#"
+              class="text-[10px] uppercase tracking-[3px] font-bold text-[#D4AF37] hover:text-white transition-colors">Discover
+              →</a>
+          </div>
+        </div>
+        <div
+          class="group relative overflow-hidden rounded-2xl shadow-3xl bg-[#111] p-6 border border-white/5 transition-all hover:border-[#D4AF37]/20">
+          <div class="aspect-[4/5] overflow-hidden rounded-xl mb-10 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1559742811-82410b451b9b?auto=format&fit=crop&q=80&w=800"
+              class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
+          </div>
+          <div class="px-2">
+            <h3 class="font-serif text-3xl text-[#D4AF37] mb-4">Colossal Lobster</h3>
+            <p class="text-white/40 text-[15px] font-light leading-relaxed mb-6">Direct from Nova Scotia's cold waters.
+              Colossal 3lb+ jumbos, served fresh daily.</p>
+            <a href="#"
+              class="text-[10px] uppercase tracking-[3px] font-bold text-[#D4AF37] hover:text-white transition-colors">Explore
+              →</a>
+          </div>
+        </div>
+        <div
+          class="group relative overflow-hidden rounded-2xl shadow-3xl bg-[#111] p-6 border border-white/5 transition-all hover:border-[#D4AF37]/20">
+          <div class="aspect-[4/5] overflow-hidden rounded-xl mb-10 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=800"
+              class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
+          </div>
+          <div class="px-2">
+            <h3 class="font-serif text-3xl text-[#D4AF37] mb-4">Prime Time Menu</h3>
+            <p class="text-white/40 text-[15px] font-light leading-relaxed mb-6">Upscale Lounge experience. Special
+              small bites & cocktails, Sun-Fri 3PM-5:30PM.</p>
+            <a href="#"
+              class="text-[10px] uppercase tracking-[3px] font-bold text-[#D4AF37] hover:text-white transition-colors">Lounge
+              →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HERITAGE: Horizontal Caricature Gallery -->
+  <section id="caricatures" class="bg-[#f0f0f0] py-48 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-12 relative z-10">
+      <div class="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
+        <h2 class="font-serif text-6xl text-black leading-tight max-w-lg">The Faces of Las Vegas</h2>
+        <div class="max-w-sm mb-2">
+          <div class="w-12 h-1 bg-[#D4AF37] mb-6"></div>
+          <p class="text-black/40 leading-relaxed font-medium">A tradition since 1926. Our walls celebrate the
+            entertainers and icons that define the soul of The Palm.</p>
+        </div>
+      </div>
+      <div
+        class="flex gap-12 overflow-x-auto pb-10 hide-scrollbar snap-x snap-mandatory cursor-grab active:cursor-grabbing">
+        <div class="caricature-item -rotate-3 snap-center">FRANK SINATRA</div>
+        <div class="caricature-item rotate-2 snap-center shadow-red-900/10">ELVIS PRESLEY</div>
+        <div class="caricature-item -rotate-1 snap-center">CELINE DION</div>
+        <div class="caricature-item rotate-6 snap-center shadow-blue-900/10">PENN & TELLER</div>
+        <div class="caricature-item -rotate-6 snap-center">DEAN MARTIN</div>
+        <div class="caricature-item rotate-2 snap-center">SAMMY DAVIS JR</div>
+      </div>
+    </div>
+    <div class="absolute top-1/2 left-0 w-full text-[25rem] font-serif text-black/5 select-none -translate-y-1/2 -z-1">
+      HERITAGE</div>
+  </section>
+
+  <!-- FOOTER: Sophisticated Branding -->
+  <footer id="location" class="bg-black py-40 px-12 border-t border-white/5 relative">
+    <div class="max-w-7xl mx-auto flex flex-col items-center gap-20">
+      <div class="flex flex-col items-center text-center">
+        <img src="/src/assets/logo.png" class="h-16 mb-12 brightness-200">
+        <p class="text-[10px] uppercase tracking-[6px] font-black text-[#D4AF37] mb-8">The Forum Shops at Caesars Palace
+        </p>
+        <div class="flex gap-16 flex-wrap justify-center">
+          <a href="#" class="nav-link">Private Parties</a>
+          <a href="#" class="nav-link">Gift Cards</a>
+          <a href="#" class="nav-link">Locations</a>
+          <a href="#" class="nav-link">Join The 837 Club</a>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-20 w-full text-center md:text-left border-y border-white/5 py-20">
+        <div class="flex flex-col items-center md:items-start gap-6">
+          <span class="text-[#D4AF37] uppercase tracking-[4px] text-[10px] font-bold">Contact Us</span>
+          <p class="text-2xl font-serif text-white/80 leading-relaxed max-w-xs">3500 Las Vegas Blvd. S. Las Vegas, NV
+            89109</p>
+          <a href="tel:7027327256" class="text-white hover:text-[#D4AF37] transition-all text-xl">(702) 732-7256</a>
+        </div>
+        <div class="flex flex-col items-center md:items-end gap-6">
+          <span class="text-[#D4AF37] uppercase tracking-[4px] text-[10px] font-bold">Hours of Hospitality</span>
+          <div class="flex flex-col items-center md:items-end gap-2 text-white/50 font-light">
+            <p class="text-xl text-white/80">SUN - SAT</p>
+            <p class="text-xl">11:30 AM — 10:00 PM</p>
+            <p class="text-[10px] tracking-widest mt-4">Happy Hour Sun-Fri 3PM — 5:30PM</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col items-center gap-8 text-[9px] text-white/20 uppercase tracking-[4px] font-medium">
+        <div class="flex gap-10">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Use</a>
+          <a href="#">Accessibility</a>
+        </div>
+        <p>© 2026 THE PALM RESTAURANT. PROUDLY SERVING SINCE 1926.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CONCIERGE: AI Chatbot -->
+  <div id="chat-trigger"
+    class="fixed bottom-12 right-12 w-20 h-20 bg-[#D4AF37] text-black rounded-full flex items-center justify-center cursor-pointer shadow-[0_20px_60px_-15px_rgba(212,175,55,0.4)] z-[2000] hover:scale-105 active:scale-95 transition-all text-3xl border-4 border-[#111]">
+    🎩
+  </div>
+
+  <div id="chat-window"
+    class="fixed bottom-36 right-12 w-[450px] h-[650px] max-h-[75vh] bg-[#111] border border-[#D4AF37]/20 rounded-3xl shadow-[0_40px_100px_rgba(0,0,0,1)] flex flex-col z-[2000] overflow-hidden opacity-0 invisible translate-y-12 transition-all duration-700">
+    <div class="p-10 bg-[#161616] border-b border-white/5 flex justify-between items-center">
+      <div class="flex items-center gap-5">
+        <div class="relative">
+          <div
+            class="w-10 h-10 bg-[#D4AF37] rounded-full flex items-center justify-center text-black text-xs font-black">
+            LV</div>
+          <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-4 border-[#161616] rounded-full"></div>
+        </div>
+        <div>
+          <h3 class="uppercase tracking-[4px] text-[10px] font-black text-[#D4AF37] mb-1">The Palm Concierge</h3>
+          <p class="text-[10px] text-white/40 tracking-widest">Active • Caesars Palace</p>
+        </div>
+      </div>
+      <button id="chat-close" class="text-white/30 hover:text-white text-xl transition-all">✕</button>
+    </div>
+    <div id="chat-messages" class="flex-1 p-10 overflow-y-auto space-y-8 flex flex-col hide-scrollbar">
+      <div
+        class="bg-white/[0.03] p-6 rounded-2xl rounded-bl-none text-[13px] max-w-[90%] leading-relaxed border border-white/5 text-white/60 font-light">
+        Good evening. Welcome to <span class="text-[#D4AF37] font-medium">The Palm Las Vegas</span>. I am your virtual
+        concierge. How may I assist you with your table inquiry or our culinary history?
+      </div>
+    </div>
+    <form id="chat-form" class="p-8 bg-[#161616] border-t border-white/5 flex gap-5">
+      <input type="text" id="chat-input" placeholder="Type your inquiry..."
+        class="flex-1 bg-black/40 border border-white/10 p-5 rounded-2xl text-[13px] text-white outline-none focus:border-[#D4AF37]/50 transition-all placeholder:text-white/20"
+        autocomplete="off">
+      <button type="submit"
+        class="bg-[#D4AF37] text-black w-14 h-14 rounded-2xl flex items-center justify-center text-lg hover:bg-white transition-all shadow-xl shadow-[#D4AF37]/10 flex-shrink-0">
+        ✈
+      </button>
+    </form>
+  </div>
+
+  <!-- SCRIPTS: Core Interaction -->
+  <script>
+    // CORE SETUP
+    const video = document.getElementById('hero-video');
+    const header = document.getElementById('main-header');
+    const heroContent = document.querySelector('.animate-fade-in');
+
+    // Reveal Hero Content and Video on load
+    window.addEventListener('load', () => {
+      if (video) {
+        video.style.opacity = '1';
+        video.play().catch(e => console.log("Autoplay blocked"));
+      }
+      if (heroContent) heroContent.style.opacity = '1';
+    });
+
+    // HEADER SCROLL LOGIC
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        header.classList.remove('py-8');
+        header.classList.add('bg-black/95', 'py-4', 'backdrop-blur-3xl', 'border-b', 'border-white/5', 'shadow-2xl');
+      } else {
+        header.classList.add('py-8');
+        header.classList.remove('bg-black/95', 'py-4', 'backdrop-blur-3xl', 'border-b', 'border-white/5', 'shadow-2xl');
+      }
+    });
+
+    // CHATBOT INTERACTION
+    const trigger = document.getElementById('chat-trigger');
+    const windowChat = document.getElementById('chat-window');
+    const close = document.getElementById('chat-close');
+    const form = document.getElementById('chat-form');
+    const input = document.getElementById('chat-input');
+    const messages = document.getElementById('chat-messages');
+
+    const WORKER_API = 'https://fragrant-unit-9548.cogniq-bharath.workers.dev/';
+
+    trigger.onclick = () => {
+      const isActive = !windowChat.classList.contains('invisible');
+      if (isActive) {
+        windowChat.classList.add('opacity-0', 'invisible', 'translate-y-12');
+      } else {
+        windowChat.classList.remove('opacity-0', 'invisible', 'translate-y-12');
+        input.focus();
+      }
+    };
+
+    close.onclick = () => {
+      windowChat.classList.add('opacity-0', 'invisible', 'translate-y-12');
+    };
+
+    function appendMsg(text, isUser = false) {
+      const msg = document.createElement('div');
+      if (isUser) {
+        msg.className = "bg-[#D4AF37] text-black p-5 rounded-2xl rounded-br-none text-[13px] self-end max-w-[85%] leading-relaxed font-bold shadow-2xl";
+      } else {
+        msg.className = "bg-white/[0.03] p-5 rounded-2xl rounded-bl-none text-[13px] self-start max-w-[90%] leading-relaxed border border-white/5 text-white/60 font-light";
+      }
+      msg.textContent = text;
+      messages.appendChild(msg);
+      messages.scrollTop = messages.scrollHeight;
+      return msg;
+    }
+
+    form.onsubmit = async (e) => {
+      e.preventDefault();
+      const val = input.value.trim();
+      if (!val) return;
+
+      appendMsg(val, true);
+      input.value = '';
+
+      try {
+        const response = await fetch(WORKER_API, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt: val })
+        });
+        const data = await response.json();
+        appendMsg(data.response || "My apologies, I am briefly unavailable to respond. Please inquire again momentarily.");
+      } catch (error) {
+        const err = document.createElement('div');
+        err.className = "text-[10px] text-white/20 text-center tracking-[4px] uppercase mt-4 mb-2";
+        err.textContent = "Connection reset — I remain at your service.";
+        messages.appendChild(err);
+      }
+      messages.scrollTop = messages.scrollHeight;
+    };
+  </script>
 </body>
 
 </html>
