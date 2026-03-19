@@ -1,11 +1,27 @@
 
 /**
- * Cloudflare Worker for The Palm Restaurant - Gemini AI Interface
+ * Cloudflare Worker for The Palm Las Vegas - AI Concierge
  * 
- * Target URL: https://fragrant-unit-9548.cogniq-bharath.workers.dev/
  * Model: gemma-3-27b-it
- * API Key Secret: API_KEY_palm (set via 'wrangler secret put API_KEY_palm')
+ * API Key Secret: API_KEY_palm
  */
+
+const SYSTEM_PROMPT = `You are the Virtual AI Concierge for The Palm Las Vegas, a legendary Italian-American steakhouse located in The Forum Shops at Caesars Palace.
+Your tone is professional, sophisticated, and incredibly welcoming—reflecting the "Legendary Hospitality" The Palm has been famous for since 1926.
+
+Key Knowledge:
+- Location: The Forum Shops at Caesars Palace, 3500 Las Vegas Blvd. South, Las Vegas, NV 89109.
+- Specialties: Prime-aged steaks, massive Nova Scotia lobsters (3lb+), and signature Italian-American dishes like Gigante Meatballs and Chicken Parmigiana.
+- Heritage: Known for the hundreds of hand-painted caricatures of celebrities and loyal guests on our walls.
+- "837 Club": Our loyalty program where guests earn rewards.
+- Prime Time: Our upscale happy hour from Sunday to Friday, 3:00 PM to 5:30 PM.
+- Vibe: Dark charcoal wood, high-end white tablecloths, intimate and classic ambiance.
+
+When answering:
+1. Always be polite and treat the guest as a VIP.
+2. Provide details about the menu or our history when relevant.
+3. If they ask about reservations, guide them to the booking widget on the main site.
+4. Keep responses concise and elegant.`;
 
 export default {
     async fetch(request, env) {
@@ -33,101 +49,67 @@ export default {
         }
 
         try {
-            // Parse the incoming request JSOn
             const body = await request.json();
             const prompt = body.prompt;
 
             if (!prompt) {
-                return new Response(JSON.stringify({ error: "Bad Request. 'prompt' is required in JSON body." }), {
+                return new Response(JSON.stringify({ error: "Bad Request. 'prompt' is required." }), {
                     status: 400,
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Access-Control-Allow-Origin": "*",
-                    },
+                    headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
                 });
             }
 
-            // Access the Gemini API Key from environment variables (Secrets)
             const apiKey = env.API_KEY_palm;
             if (!apiKey) {
-                return new Response(JSON.stringify({ error: "Service Configuration Error. API_KEY_palm not found in environment." }), {
+                return new Response(JSON.stringify({ error: "Service Configuration Error. API Key not found." }), {
                     status: 500,
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Access-Control-Allow-Origin": "*",
-                    },
+                    headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
                 });
             }
 
-            // Configuration for the Gemini Model
             const model = "gemma-3-27b-it";
             const apiURL = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
-            // Forward the request to Google's Generative Language API
             const geminiResponse = await fetch(apiURL, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     contents: [
                         {
-                            parts: [{ text: prompt }],
+                            role: "user",
+                            parts: [{ text: `${SYSTEM_PROMPT}\n\nGuest: ${prompt}` }],
                         },
                     ],
                     generationConfig: {
-                        maxOutputTokens: 2048,
+                        maxOutputTokens: 1000,
                         temperature: 0.7,
-                        topP: 0.95,
                     }
                 }),
             });
 
-            // Handle non-OK responses from Gemini API
             if (!geminiResponse.ok) {
                 const errorData = await geminiResponse.text();
-                return new Response(JSON.stringify({
-                    error: "Gemini API Error",
+                return new Response(JSON.stringify({ error: "AI Service Error", details: errorData }), {
                     status: geminiResponse.status,
-                    details: errorData
-                }), {
-                    status: geminiResponse.status,
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Access-Control-Allow-Origin": "*",
-                    },
+                    headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
                 });
             }
 
             const data = await geminiResponse.json();
+            const responseText = data?.candidates?.[0]?.content?.parts?.[0]?.text || "I apologize, but I am unable to answer that at the moment. How else can I assist you?";
 
-            // Extract the generated text from the response structure
-            const responseText = data?.candidates?.[0]?.content?.parts?.[0]?.text || "No response content found.";
-
-            // Return the response back to the client
             return new Response(JSON.stringify({
                 success: true,
                 response: responseText,
-                model: model,
-                usage: data.usageMetadata
+                model: model
             }), {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Access-Control-Allow-Origin": "*",
-                },
+                headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
             });
 
         } catch (error) {
-            // Catch-all for unexpected errors
-            return new Response(JSON.stringify({
-                error: "Internal Worker Error",
-                message: error.message
-            }), {
+            return new Response(JSON.stringify({ error: "Internal Error", message: error.message }), {
                 status: 500,
-                headers: {
-                    "Content-Type": "application/json",
-                    "Access-Control-Allow-Origin": "*",
-                },
+                headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
             });
         }
     },

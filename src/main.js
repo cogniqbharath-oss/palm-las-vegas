@@ -1,299 +1,161 @@
 import './style.css'
 import palmLogo from './assets/logo.png'
 
-document.querySelector('#app').innerHTML = `
-  <!-- HEADER -->
-  <header id="main-header">
+const app = document.querySelector('#app')
+app.innerHTML = `
+  <header id="main-header" class="fixed top-0 left-0 w-full px-8 py-6 z-[1000] flex justify-between items-center transition-all duration-500 bg-transparent">
     <div class="logo-container">
-      <a href="/"><img src="${palmLogo}" alt="The Palm Restaurant Logo"></a>
+      <a href="/"><img src="${palmLogo}" alt="Logo" class="h-12 w-auto brightness-200 contrast-200"></a>
     </div>
-    <nav>
-      <ul>
-        <li><a href="#locations">Locations</a></li>
-        <li><a href="#menus">Menus</a></li>
-        <li><a href="#events">Private Events</a></li>
-        <li><a href="#club">837 Club</a></li>
-        <li><a href="#about">About</a></li>
+    <nav class="hidden md:block">
+      <ul class="flex gap-10">
+        <li><a href="#locations" class="nav-link">Locations</a></li>
+        <li><a href="#menus" class="nav-link">Menus</a></li>
+        <li><a href="#events" class="nav-link">Private Events</a></li>
+        <li><a href="#story" class="nav-link">Our Story</a></li>
       </ul>
     </nav>
-    <div class="cta-group">
-      <a href="#reservations" class="btn btn-primary">Reservations</a>
+    <div class="flex gap-4">
+      <a href="#reservations" class="btn btn-primary hidden md:inline-block">Book a Table</a>
     </div>
   </header>
 
-  <!-- HERO SECTION -->
-  <section class="hero" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1581338834647-b0fb40704e21?auto=format&fit=crop&q=80&w=1920')">
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <p style="color: var(--accent-gold); letter-spacing: 4px; text-transform: uppercase; font-weight: 700; margin-bottom: 1rem;">The Forum Shops at Caesars Palace</p>
-      <h1>The Palm <br>Las Vegas</h1>
-      <p>A Las Vegas Strip landmark since 1993. Experience the premiere fine-dining destination frequented by resident entertainers and celebrities.</p>
-      <div class="hero-btns">
-        <a href="#reservations" class="btn btn-primary">Book Your Table</a>
-        <a href="#location" class="btn btn-outline">Show on Map</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- RESERVATIONS WIDGET -->
-  <section id="reservations" style="padding-bottom: 50px;">
-    <div class="res-widget">
-      <div class="input-box">
-        <label>Location</label>
-        <select disabled>
-          <option selected>Las Vegas - Forum Shops</option>
-        </select>
-      </div>
-      <div class="input-box">
-        <label>Date</label>
-        <input type="date" value="${new Date().toISOString().split('T')[0]}">
-      </div>
-      <div class="input-box">
-        <label>Guests</label>
-        <select>
-          <option>2 People</option>
-          <option>3 People</option>
-          <option>4 People</option>
-          <option>5+ People</option>
-        </select>
-      </div>
-      <button class="btn btn-primary" id="find-table">Find a Table</button>
-    </div>
-  </section>
-
-  <!-- LOCATION & HOURS -->
-  <section id="location" class="section-padding" style="background: var(--bg-offset); border-top: 1px solid var(--border);">
-    <div class="grid">
-      <div style="text-align: left;">
-        <h2 style="font-family: var(--font-serif); font-size: 3rem; margin-bottom: 2rem;">Visit Us</h2>
-        <div style="margin-bottom: 2rem;">
-          <h4 style="color: var(--accent-gold); margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px;">Address</h4>
-          <p style="font-size: 1.2rem;">3500 Las Vegas Blvd. South<br>Las Vegas, NV 89109</p>
-          <a href="https://maps.google.com/?cid=17152983553860669509" target="_blank" style="color: var(--accent); text-decoration: none; font-weight: 600; margin-top: 1rem; display: inline-block;">Get Directions →</a>
-        </div>
-        <div>
-          <h4 style="color: var(--accent-gold); margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px;">Contact</h4>
-          <p style="font-size: 1.2rem;">(702) 732-7256</p>
-        </div>
-      </div>
-      <div style="background: #111; padding: 3rem; border-radius: 12px; border: 1px solid var(--border);">
-        <h4 style="color: var(--accent-gold); margin-bottom: 1.5rem; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; text-align: center;">Hours of Operation</h4>
-        <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; border-bottom: 1px solid #222; padding-bottom: 0.5rem;">
-          <span>SUN - SAT</span>
-          <span>11:30 AM - 10:00 PM</span>
-        </div>
-        <div style="display: flex; justify-content: space-between; color: var(--accent-gold); font-size: 0.9rem;">
-          <span>Prime Time (Happy Hour)</span>
-          <span>SUN - FRI: 3:00 - 5:30 PM</span>
-        </div>
-        <p style="margin-top: 2rem; font-size: 0.8rem; color: var(--text-muted); font-style: italic;">Located steps from the Colosseum at Caesars Palace.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- SIGNATURE DRINKS -->
-  <section class="section-padding" id="cocktails" style="background: var(--bg); border-top: 1px solid var(--border);">
-    <div style="text-align:center; margin-bottom: 4rem;">
-      <h2 style="font-family: var(--font-serif); font-size: 3rem;">Palm Signatures</h2>
-      <p style="color: var(--accent-gold); letter-spacing: 2px; text-transform: uppercase;">Crafted for the Las Vegas Night</p>
-    </div>
+  <section class="relative h-screen flex items-center justify-center text-center overflow-hidden">
+    <div class="absolute inset-0 bg-hero-gradient z-10"></div>
+    <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover z-0 grayscale-[0.3] brightness-50">
+      <source src="https://assets.mixkit.co/videos/preview/mixkit-pouring-red-wine-into-a-glass-in-a-restaurant-4447-large.mp4" type="video/mp4">
+    </video>
     
-    <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
-      <div style="text-align: center; padding: 2rem; border-right: 1px solid var(--border);">
-        <h4 style="color: var(--accent-gold); margin-bottom: 0.5rem;">The Palm Mule</h4>
-        <p style="font-size: 0.9rem; color: var(--text-muted);">Wheatley, St-Germain Elderflower, Lime, Mint, Fever-Tree Ginger Beer</p>
-        <span style="font-size: 1.2rem; color: var(--text); margin-top: 1rem; display: block;">$15</span>
-      </div>
-      <div style="text-align: center; padding: 2rem; border-right: 1px solid var(--border);">
-        <h4 style="color: var(--accent-gold); margin-bottom: 0.5rem;">The Palm Margarita</h4>
-        <p style="font-size: 0.9rem; color: var(--text-muted);">Herradura Reposado, Cointreau, Lime, Agave, Hawaiian Black Sea Salt</p>
-        <span style="font-size: 1.2rem; color: var(--text); margin-top: 1rem; display: block;">$17</span>
-      </div>
-      <div style="text-align: center; padding: 2rem; border-right: 1px solid var(--border);">
-        <h4 style="color: var(--accent-gold); margin-bottom: 0.5rem;">Palm Star Martini</h4>
-        <p style="font-size: 0.9rem; color: var(--text-muted);">Absolut Vanilia, Passion Fruit, Lime, La Marca Prosecco</p>
-        <span style="font-size: 1.2rem; color: var(--text); margin-top: 1rem; display: block;">$17</span>
-      </div>
-      <div style="text-align: center; padding: 2rem;">
-        <h4 style="color: var(--accent-gold); margin-bottom: 0.5rem;">The Palm Old Fashioned</h4>
-        <p style="font-size: 0.9rem; color: var(--text-muted);">Signature Old Fashioned featuring Garrison Brothers Small Batch</p>
-        <span style="font-size: 1.2rem; color: var(--text); margin-top: 1rem; display: block;">$25</span>
+    <div class="relative z-20 max-w-4xl px-6 animate-fade-in">
+      <p class="text-palm-gold tracking-[6px] uppercase font-bold text-xs mb-4">Established 1926</p>
+      <h1 class="font-serif text-6xl md:text-8xl mb-8 leading-none text-white">The Palm <br>Las Vegas</h1>
+      <p class="text-lg md:text-xl text-white/70 mb-10 max-w-2xl mx-auto leading-relaxed">Experience a legendary classic in the heart of the Las Vegas Strip. Fine steaks, massive lobsters, and our signature hospitality.</p>
+      
+      <div id="reservations" class="bg-palm-black/80 backdrop-blur-md p-8 rounded-xl border border-palm-gold/30 shadow-2xl flex flex-wrap gap-6 items-end justify-center max-w-3xl mx-auto">
+        <div class="flex flex-col gap-2 flex-1 min-w-[150px]">
+          <label class="text-[10px] uppercase font-bold text-palm-gold tracking-widest text-left">Location</label>
+          <select disabled class="bg-[#222] border border-white/10 p-3 rounded-lg text-sm text-white focus:border-palm-gold outline-none">
+            <option selected>Las Vegas - Forum Shops</option>
+          </select>
+        </div>
+        <div class="flex flex-col gap-2 flex-1 min-w-[150px]">
+          <label class="text-[10px] uppercase font-bold text-palm-gold tracking-widest text-left">Date</label>
+          <input type="date" value="2026-03-20" class="bg-[#222] border border-white/10 p-3 rounded-lg text-sm text-white focus:border-palm-gold outline-none">
+        </div>
+        <div class="flex flex-col gap-2 flex-1 min-w-[150px]">
+          <label class="text-[10px] uppercase font-bold text-palm-gold tracking-widest text-left">Party Size</label>
+          <select class="bg-[#222] border border-white/10 p-3 rounded-lg text-sm text-white focus:border-palm-gold outline-none">
+            <option>2 People</option>
+            <option>3 People</option>
+            <option>4 People</option>
+            <option>5+ People</option>
+          </select>
+        </div>
+        <button class="btn btn-primary h-[46px]">Find Table</button>
       </div>
     </div>
   </section>
 
-  <!-- FEATURES SECTION -->
-  <section class="section-padding" id="features">
-    <div style="text-align:center; margin-bottom: 4rem;">
-      <h2 style="font-family: var(--font-serif); font-size: 3.5rem;">The LV Experience</h2>
-      <p style="color: var(--accent-gold); letter-spacing: 2px; text-transform: uppercase; font-weight: 600;">Prime Dining on the Strip</p>
-    </div>
-    
-    <div class="grid">
-      <div class="card">
-        <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1546241072-48010ad2862c?auto=format&fit=crop&q=80&w=800')"></div>
-        <div class="card-body">
-          <h3>Prime Steak & Seafood</h3>
-          <p>Heavy corn-fed USDA Choice prime beef and fresh Nova Scotia lobsters hand-selected daily.</p>
-        </div>
+  <section id="menus" class="py-32 px-8 bg-palm-black">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-20">
+        <h2 class="font-serif text-5xl mb-4 text-white">Legendary Excellence</h2>
+        <div class="w-16 h-1 bg-palm-gold mx-auto"></div>
       </div>
-      <div class="card">
-        <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1559742811-82410b451b9b?auto=format&fit=crop&q=80&w=800')"></div>
-        <div class="card-body">
-          <h3>Prime Time Menu</h3>
-          <p>Specially priced small bites and cocktails at the bar. Sunday - Friday, 3:00 PM - 5:30 PM.</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="card p-4 group">
+          <img src="https://images.unsplash.com/photo-1546241072-48010ad2862c?auto=format&fit=crop&q=80&w=800" class="w-full h-64 object-cover rounded-lg mb-6 group-hover:scale-105 transition-transform">
+          <h3 class="font-serif text-2xl text-palm-gold mb-2">Prime Steaks</h3>
+          <p class="text-sm text-white/60">USDA Prime beef aged to perfection.</p>
         </div>
-      </div>
-      <div class="card">
-        <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=800')"></div>
-        <div class="card-body">
-          <h3>Private Dining</h3>
-          <p>Hosting groups of all sizes. Located steps from the Colosseum at Caesars Palace.</p>
+        <div class="card p-4 group">
+          <img src="https://images.unsplash.com/photo-1559742811-82410b451b9b?auto=format&fit=crop&q=80&w=800" class="w-full h-64 object-cover rounded-lg mb-6 group-hover:scale-105 transition-transform">
+          <h3 class="font-serif text-2xl text-palm-gold mb-2">Live Lobster</h3>
+          <p class="text-sm text-white/60">Colossal Jumbos hand-selected daily.</p>
+        </div>
+        <div class="card p-4 group">
+          <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=800" class="w-full h-64 object-cover rounded-lg mb-6 group-hover:scale-105 transition-transform">
+          <h3 class="font-serif text-2xl text-palm-gold mb-2">Lounge & Bar</h3>
+          <p class="text-sm text-white/60">Signature cocktails & Bar Bites.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CARICATURES PREVIEW -->
-  <section class="section-padding caricatures-section">
-    <h2 style="font-family: var(--font-serif); font-size: 2.5rem; margin-bottom: 1rem;">Vegas Hall of Fame</h2>
-    <p style="margin-bottom: 3rem; max-width: 600px; margin-left: auto; margin-right: auto;">Our walls feature the entertainers and icons that define Las Vegas. Discover your favorite legend among thousands of caricatures.</p>
-    
-    <div class="caricature-flex">
-      <div class="caricature-item">Frank Sinatra</div>
-      <div class="caricature-item">Celine Dion</div>
-      <div class="caricature-item">Elvis Presley</div>
-      <div class="caricature-item">Penn & Teller</div>
-      <div class="caricature-item">Jerry Lewis</div>
-      <div class="caricature-item">Dean Martin</div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-col">
-      <img src="${palmLogo}" alt="Logo" style="height: 40px; margin-bottom: 2rem;">
-      <p>3500 Las Vegas Blvd. South<br>Las Vegas, NV 89109</p>
-      <p style="margin-top: 1rem;">(702) 732-7256</p>
-    </div>
-    <div class="footer-col">
-      <h4>Navigation</h4>
-      <ul>
-        <li><a href="#">Locations</a></li>
-        <li><a href="#">Menus</a></li>
-        <li><a href="#">History</a></li>
-        <li><a href="#">Careers</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Connect</h4>
-      <ul>
-        <li><a href="#">Instagram</a></li>
-        <li><a href="#">Facebook</a></li>
-        <li><a href="#">Twitter</a></li>
-        <li><a href="#">Email Signup</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Our Brands</h4>
-      <p>Landry's Inc.</p>
-      <p style="font-size: 0.8rem; margin-top: 1rem;">© 2026 The Palm Restaurant. All Rights Reserved.</p>
+  <footer class="bg-black py-20 px-8 border-t border-white/10">
+    <div class="max-w-7xl mx-auto flex flex-col items-center gap-10">
+      <img src="${palmLogo}" class="h-10 brightness-200">
+      <div class="flex gap-8">
+        <a href="#" class="nav-link">Locations</a>
+        <a href="#" class="nav-link">Jobs</a>
+        <a href="#" class="nav-link">Privacy</a>
+      </div>
+      <p class="text-xs text-white/30 tracking-widest uppercase">© 2026 The Palm Restaurant</p>
     </div>
   </footer>
 
-  <!-- CHATBOT -->
-  <div class="chat-trigger" id="chat-trigger">
-    💬
-  </div>
-
-  <div class="chat-window" id="chat-window">
+  <div id="chat-trigger" class="chat-trigger">🎩</div>
+  <div id="chat-window" class="chat-window">
     <div class="chat-header">
-      <div class="chat-header-info">
-        <h3>The Palm Assistant</h3>
-      </div>
-      <div class="chat-close" id="chat-close">✕</div>
+      <span class="font-bold tracking-widest text-xs uppercase">The Palm Concierge</span>
+      <button id="chat-close">✕</button>
     </div>
-    <div class="chat-messages" id="chat-messages">
-      <div class="message bot">Welcome to The Palm Restaurant. How may I assist you with your reservation or any questions today?</div>
+    <div id="chat-messages" class="chat-messages text-xs">
+      <div class="message bot">How may I assist you this evening at The Palm?</div>
     </div>
-    <div class="typing-indicator" id="typing-indicator">The Palm is typing...</div>
-    <form class="chat-input-area" id="chat-form">
-      <input type="text" id="chat-input" placeholder="Type your message..." autocomplete="off">
-      <button type="submit">✈</button>
+    <form id="chat-form" class="chat-input-area">
+      <input type="text" id="chat-input" placeholder="Your inquiry..." class="text-xs">
+      <button type="submit" class="text-xs">Send</button>
     </form>
   </div>
 `
 
-// Simple scroll effect for header
 window.addEventListener('scroll', () => {
-  const header = document.querySelector('#main-header');
-  if (window.scrollY > 50) {
-    header.classList.add('scrolled');
+  const header = document.querySelector('#main-header')
+  if (window.scrollY > 80) {
+    header.classList.add('bg-black', 'py-4', 'border-b', 'border-white/10')
+    header.classList.remove('bg-transparent', 'py-6')
   } else {
-    header.classList.remove('scrolled');
+    header.classList.remove('bg-black', 'py-4', 'border-b', 'border-white/10')
+    header.classList.add('bg-transparent', 'py-6')
   }
-});
+})
 
-// Chatbot Logic
-const chatTrigger = document.querySelector('#chat-trigger');
-const chatWindow = document.querySelector('#chat-window');
-const chatClose = document.querySelector('#chat-close');
-const chatForm = document.querySelector('#chat-form');
-const chatInput = document.querySelector('#chat-input');
-const chatMessages = document.querySelector('#chat-messages');
-const typingIndicator = document.querySelector('#typing-indicator');
+const chatTrigger = document.querySelector('#chat-trigger')
+const chatWindow = document.querySelector('#chat-window')
+const chatClose = document.querySelector('#chat-close')
+const chatForm = document.querySelector('#chat-form')
+const chatInput = document.querySelector('#chat-input')
+const chatMessages = document.querySelector('#chat-messages')
 
-const WORKER_URL = 'https://fragrant-unit-9548.cogniq-bharath.workers.dev/';
+chatTrigger.onclick = () => chatWindow.classList.toggle('active')
+chatClose.onclick = () => chatWindow.classList.remove('active')
 
-chatTrigger.addEventListener('click', () => {
-  chatWindow.classList.toggle('active');
-  if (chatWindow.classList.contains('active')) {
-    chatInput.focus();
-  }
-});
+chatForm.onsubmit = async (e) => {
+  e.preventDefault()
+  const val = chatInput.value.trim()
+  if (!val) return
 
-chatClose.addEventListener('click', () => {
-  chatWindow.classList.remove('active');
-});
-
-function addMessage(text, isUser = false) {
-  const msgDiv = document.createElement('div');
-  msgDiv.className = `message ${isUser ? 'user' : 'bot'}`;
-  msgDiv.textContent = text;
-  chatMessages.appendChild(msgDiv);
-  chatMessages.scrollTop = chatMessages.scrollHeight;
-}
-
-chatForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const prompt = chatInput.value.trim();
-  if (!prompt) return;
-
-  addMessage(prompt, true);
-  chatInput.value = '';
-
-  typingIndicator.style.display = 'block';
-  chatMessages.scrollTop = chatMessages.scrollHeight;
+  const userMsg = document.createElement('div')
+  userMsg.className = 'message user'
+  userMsg.textContent = val
+  chatMessages.appendChild(userMsg)
+  chatInput.value = ''
 
   try {
-    const response = await fetch(WORKER_URL, {
+    const res = await fetch('https://fragrant-unit-9548.cogniq-bharath.workers.dev/', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt: `You are a helpful and polite virtual assistant for The Palm Restaurant, a classic American steakhouse famous for its prime steaks, Nova Scotia lobsters, and cartoons/caricatures on the walls. Answer this guest's inquiry: ${prompt}` })
-    });
-
-    const data = await response.json();
-    typingIndicator.style.display = 'none';
-
-    if (data.success && data.response) {
-      addMessage(data.response);
-    } else {
-      addMessage("I'm sorry, I'm having trouble connecting to my serves right now. Please try again or call the restaurant directly.");
-      console.error('Worker error:', data.error);
-    }
-  } catch (error) {
-    typingIndicator.style.display = 'none';
-    addMessage("Connection error. Please check your internet or try again later.");
-    console.error('Fetch error:', error);
+      body: JSON.stringify({ prompt: val })
+    })
+    const data = await res.json()
+    const botMsg = document.createElement('div')
+    botMsg.className = 'message bot'
+    botMsg.textContent = data.response
+    chatMessages.appendChild(botMsg)
+  } catch (e) {
+    const errMsg = document.createElement('div')
+    errMsg.className = 'message bot'
+    errMsg.textContent = 'Apologies, I am unavailable.'
+    chatMessages.appendChild(errMsg)
   }
-});
+}
