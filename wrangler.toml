@@ -1,0 +1,14 @@
+
+# wrangler.toml for The Palm Las Vegas
+# Deployment: https://fragrant-unit-9548.cogniq-bharath.workers.dev/
+name = "palm-las-vegas"
+main = "worker.js"
+compatibility_date = "2024-11-18"
+
+# Serving the static website assets alongside the API
+[assets]
+directory = "./dist"
+
+# For variables like the model (API_KEY_palm should be set as a secret)
+[vars]
+GEMINI_MODEL = "gemma-3-27b-it"
