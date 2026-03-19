@@ -7,7 +7,7 @@ compatibility_date = "2024-11-18"
 
 # Serving the static website assets alongside the API
 [assets]
-directory = "./dist"
+directory = "."
 
 # For variables like the model (API_KEY_palm should be set as a secret)
 [vars]
