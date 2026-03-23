@@ -328,8 +328,13 @@
 
   <!-- CONCIERGE: AI Chatbot -->
   <div id="chat-trigger"
-    class="fixed bottom-8 right-8 md:bottom-12 md:right-12 w-16 h-16 md:w-20 md:h-20 bg-[#D4AF37] text-black rounded-full flex items-center justify-center cursor-pointer shadow-[0_20px_60px_-15px_rgba(212,175,55,0.4)] z-[2000] hover:scale-105 active:scale-95 transition-all text-2xl md:text-3xl border-4 border-[#111]">
-    �
+    class="fixed bottom-8 right-8 md:bottom-12 md:right-12 w-16 h-16 md:w-20 md:h-20 bg-[#D4AF37] text-black rounded-full flex items-center justify-center cursor-pointer shadow-[0_20px_60px_-15px_rgba(212,175,55,0.4)] z-[2000] hover:scale-110 active:scale-95 transition-all border-4 border-[#111] group">
+    <svg class="w-8 h-8 md:w-10 md:h-10 transition-transform group-hover:rotate-12" stroke="currentColor" fill="none"
+      stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"
+      xmlns="http://www.w3.org/2000/svg">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+      <path d="M12 7v6m-3-3h6" class="opacity-30"></path>
+    </svg>
   </div>
 
   <div id="chat-window"
@@ -381,6 +386,9 @@
     const mobileToggle = document.getElementById('mobile-toggle');
     const mobileMenu = document.getElementById('mobile-menu');
     const mobileLinks = mobileMenu.querySelectorAll('a');
+    const videoContainer = document.querySelector('.pointer-events-none');
+    const heroContent = document.querySelector('.animate-fade-in');
+    const header = document.getElementById('main-header');
 
     window.addEventListener('load', () => {
       if (videoContainer) videoContainer.style.opacity = '1';
