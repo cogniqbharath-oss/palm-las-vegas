@@ -329,7 +329,7 @@
   <!-- CONCIERGE: AI Chatbot -->
   <div id="chat-trigger"
     class="fixed bottom-8 right-8 md:bottom-12 md:right-12 w-16 h-16 md:w-20 md:h-20 bg-[#D4AF37] text-black rounded-full flex items-center justify-center cursor-pointer shadow-[0_20px_60px_-15px_rgba(212,175,55,0.4)] z-[2000] hover:scale-105 active:scale-95 transition-all text-2xl md:text-3xl border-4 border-[#111]">
-    🎩
+    �
   </div>
 
   <div id="chat-window"
@@ -351,7 +351,11 @@
           <p class="text-[8px] md:text-[10px] text-white/40 tracking-widest">Active • Caesars Palace</p>
         </div>
       </div>
-      <button id="chat-close" class="text-white/30 hover:text-white text-lg md:text-xl transition-all">✕</button>
+      <div class="flex items-center gap-4">
+        <button id="chat-clear"
+          class="text-white/20 hover:text-[#D4AF37] text-[10px] uppercase tracking-widest transition-all font-bold">Clear</button>
+        <button id="chat-close" class="text-white/30 hover:text-white text-lg md:text-xl transition-all">✕</button>
+      </div>
     </div>
     <div id="chat-messages"
       class="flex-1 p-6 md:p-10 overflow-y-auto space-y-6 md:space-y-8 flex flex-col hide-scrollbar">
@@ -413,6 +417,7 @@
     const trigger = document.getElementById('chat-trigger');
     const windowChat = document.getElementById('chat-window');
     const close = document.getElementById('chat-close');
+    const clear = document.getElementById('chat-clear');
     const form = document.getElementById('chat-form');
     const input = document.getElementById('chat-input');
     const messages = document.getElementById('chat-messages');
@@ -431,6 +436,11 @@
 
     close.onclick = () => {
       windowChat.classList.add('opacity-0', 'invisible', 'translate-y-12');
+    };
+
+    clear.onclick = () => {
+      messages.innerHTML = '';
+      appendMsg("History cleared. How can I help you starting fresh?");
     };
 
     function appendMsg(text, isUser = false) {
