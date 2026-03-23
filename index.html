@@ -54,6 +54,9 @@
             to { opacity: 1; transform: translateY(0); }
         }
         .animate-fade-in { animation: fadeIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        #mobile-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        #mobile-toggle.active span:nth-child(2) { opacity: 0; }
+        #mobile-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
     </style>
 </head>
 
@@ -61,11 +64,13 @@
 
   <!-- HEADER: Dynamic Sticky -->
   <header id="main-header"
-    class="fixed top-0 left-0 w-full px-12 py-8 z-[1000] flex justify-between items-center transition-all duration-700 bg-transparent overflow-hidden">
-    <a href="/" class="z-50 group flex items-center gap-4">
+    class="fixed top-0 left-0 w-full px-6 lg:px-12 py-6 lg:py-8 z-[1000] flex justify-between items-center transition-all duration-700 bg-transparent overflow-hidden">
+    <a href="/" class="z-[1100] group flex items-center gap-4">
       <img src="assets/logo.png" alt="Logo"
-        class="h-12 brightness-200 transition-all duration-500 group-hover:scale-105">
+        class="h-8 lg:h-12 brightness-200 transition-all duration-500 group-hover:scale-105">
     </a>
+
+    <!-- DESKTOP NAV -->
     <nav class="hidden lg:block">
       <ul class="flex gap-12">
         <li><a href="#hero" class="nav-link">Private Dining</a></li>
@@ -74,21 +79,42 @@
         <li><a href="#caricatures" class="nav-link">Our Heritage</a></li>
       </ul>
     </nav>
-    <div class="flex items-center gap-8">
+
+    <!-- MOBILE TOGGLE -->
+    <button id="mobile-toggle" class="lg:hidden z-[1100] text-palm-gold text-2xl p-2">
+      <span class="block w-6 h-0.5 bg-current mb-1.5 transition-all"></span>
+      <span class="block w-6 h-0.5 bg-current mb-1.5 transition-all"></span>
+      <span class="block w-6 h-0.5 bg-current transition-all"></span>
+    </button>
+
+    <div class="hidden lg:flex items-center gap-8">
       <a href="tel:7027327256"
         class="hidden xl:block text-[11px] tracking-[2px] font-bold text-white/50 hover:text-white transition-colors">(702)
         732-7256</a>
-      <a href="#reservations" class="btn btn-gold hidden sm:block">Reservations</a>
+      <a href="#reservations" class="btn btn-gold">Reservations</a>
+    </div>
+
+    <!-- MOBILE MENU SIDEBAR -->
+    <div id="mobile-menu"
+      class="fixed inset-0 bg-palm-black z-[1050] flex flex-col items-center justify-center gap-12 translate-x-full transition-transform duration-700 lg:hidden">
+      <a href="#hero" class="text-3xl font-serif text-white hover:text-palm-gold">Private Dining</a>
+      <a href="#menus" class="text-3xl font-serif text-white hover:text-palm-gold">Menus</a>
+      <a href="#location" class="text-3xl font-serif text-white hover:text-palm-gold">Location</a>
+      <a href="#caricatures" class="text-3xl font-serif text-white hover:text-palm-gold">Our Heritage</a>
+      <a href="#reservations" class="btn btn-gold mt-8">Book A Table</a>
     </div>
   </header>
 
   <!-- HERO: Cinematic Background Video -->
   <section id="hero" class="relative h-screen flex items-center justify-center text-center overflow-hidden">
-    <div class="absolute inset-0 bg-hero-gradient z-10"></div>
-    <div class="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
+    <div
+      class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-[#111] z-10 transition-all duration-1000">
+    </div>
+    <div
+      class="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none transition-opacity duration-1000">
       <iframe
         src="https://player.vimeo.com/video/1152281614?title=0&byline=0&portrait=0&color=3a6774&autoplay=1&loop=1&background=1&dnt=1"
-        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[115%] h-[115%] object-cover grayscale-[0.2] brightness-[0.4]"
+        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[115%] h-[115%] object-cover brightness-[0.7] scale-[1.1]"
         frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
     </div>
 
@@ -96,8 +122,8 @@
       <div class="inline-block px-4 py-1 border border-[#D4AF37]/50 mb-8">
         <p class="text-[#D4AF37] tracking-[8px] uppercase font-bold text-[10px]">A Las Vegas Tradition Since 1993</p>
       </div>
-      <h1 class="font-serif text-7xl md:text-[10rem] mb-12 leading-[0.85] tracking-tight">The Palm<br><span
-          class="text-[#D4AF37]">Las Vegas</span></h1>
+      <h1 class="font-serif text-5xl md:text-7xl lg:text-[10rem] mb-12 leading-[1.1] md:leading-[0.85] tracking-tight">
+        The Palm<br><span class="text-[#D4AF37]">Las Vegas</span></h1>
       <p class="text-xl md:text-2xl text-white/60 mb-14 max-w-3xl mx-auto font-light leading-relaxed tracking-wide">
         Located in The Forum Shops at Caesars, experience our world-famous Prime Steaks, Jumbos Nova Scotia Lobsters,
         and a heritage of legendary hospitality.</p>
@@ -110,9 +136,9 @@
   </section>
 
   <!-- RESERVATIONS: Modular Widget -->
-  <section id="reservations" class="relative -mt-20 z-30 px-6 pb-20">
+  <section id="reservations" class="relative -mt-20 z-30 px-4 md:px-6 pb-20">
     <div
-      class="bg-palm-black/90 backdrop-blur-2xl p-12 rounded-3xl border border-white/10 shadow-[0_50px_100px_-20px_rgba(0,0,0,1)] max-w-6xl mx-auto flex flex-wrap lg:flex-nowrap gap-10 items-end justify-center">
+      class="bg-palm-black/90 backdrop-blur-2xl p-8 md:p-12 rounded-3xl border border-white/10 shadow-[0_50px_100px_-20px_rgba(0,0,0,1)] max-w-6xl mx-auto flex flex-wrap lg:flex-nowrap gap-10 items-end justify-center">
       <div class="flex flex-col gap-4 flex-1 min-w-[240px]">
         <label class="text-[10px] uppercase font-bold text-[#D4AF37] tracking-[4px]">Location</label>
         <div class="bg-black/40 border border-white/10 p-4 rounded-xl text-sm text-white/90">The Forum Shops at Caesars
@@ -168,7 +194,7 @@
         <div
           class="group relative overflow-hidden rounded-2xl shadow-3xl bg-[#111] p-6 border border-white/5 transition-all hover:border-[#D4AF37]/20">
           <div class="aspect-[4/5] overflow-hidden rounded-xl mb-10 overflow-hidden">
-            <img src="https://thepalm.com/wp-content/uploads/2021/04/The-Palm_Seafood-Platter_1200x800-1-scaled.jpg"
+            <img src="assets/lobster.png"
               class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
           </div>
           <div class="px-2">
@@ -251,11 +277,20 @@
   <!-- FOOTER: Sophisticated Branding -->
   <footer id="location" class="bg-black py-40 px-12 border-t border-white/5 relative">
     <div class="max-w-7xl mx-auto flex flex-col items-center gap-20">
-      <div class="flex flex-col items-center text-center">
-        <img src="/src/assets/logo.png" class="h-16 mb-12 brightness-200">
+      <div class="flex flex-col items-center text-center w-full">
+        <img src="assets/logo.png" class="h-16 mb-12 brightness-200">
         <p class="text-[10px] uppercase tracking-[6px] font-black text-[#D4AF37] mb-8">The Forum Shops at Caesars Palace
         </p>
-        <div class="flex gap-16 flex-wrap justify-center">
+
+        <!-- MAP: High-End Chilled Aesthetic -->
+        <div
+          class="w-full h-[500px] rounded-3xl overflow-hidden shadow-3xl border border-white/5 grayscale-[0.8] hover:grayscale-0 transition-all duration-1000 mb-20">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3221.8!2d-115.177!3d36.117!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c8c438363715df%3A0xe549fb360048ee8a!2sThe%20Palm%20Las%20Vegas!5e0!3m2!1sen!2sus!4v1711130000000!5m2!1sen!2sus"
+            class="w-full h-full border-0" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+
+        <div class="flex gap-16 flex-wrap justify-center border-b border-white/5 pb-20 w-full mb-12">
           <a href="#" class="nav-link">Private Parties</a>
           <a href="#" class="nav-link">Gift Cards</a>
           <a href="#" class="nav-link">Locations</a>
@@ -293,39 +328,44 @@
 
   <!-- CONCIERGE: AI Chatbot -->
   <div id="chat-trigger"
-    class="fixed bottom-12 right-12 w-20 h-20 bg-[#D4AF37] text-black rounded-full flex items-center justify-center cursor-pointer shadow-[0_20px_60px_-15px_rgba(212,175,55,0.4)] z-[2000] hover:scale-105 active:scale-95 transition-all text-3xl border-4 border-[#111]">
+    class="fixed bottom-8 right-8 md:bottom-12 md:right-12 w-16 h-16 md:w-20 md:h-20 bg-[#D4AF37] text-black rounded-full flex items-center justify-center cursor-pointer shadow-[0_20px_60px_-15px_rgba(212,175,55,0.4)] z-[2000] hover:scale-105 active:scale-95 transition-all text-2xl md:text-3xl border-4 border-[#111]">
     🎩
   </div>
 
   <div id="chat-window"
-    class="fixed bottom-36 right-12 w-[450px] h-[650px] max-h-[75vh] bg-[#111] border border-[#D4AF37]/20 rounded-3xl shadow-[0_40px_100px_rgba(0,0,0,1)] flex flex-col z-[2000] overflow-hidden opacity-0 invisible translate-y-12 transition-all duration-700">
-    <div class="p-10 bg-[#161616] border-b border-white/5 flex justify-between items-center">
-      <div class="flex items-center gap-5">
+    class="fixed bottom-28 right-4 md:right-12 w-[calc(100vw-32px)] md:w-[450px] h-[550px] md:h-[650px] max-h-[75vh] bg-[#111] border border-[#D4AF37]/20 rounded-3xl shadow-[0_40px_100px_rgba(0,0,0,1)] flex flex-col z-[2000] overflow-hidden opacity-0 invisible translate-y-12 transition-all duration-700">
+    <div class="p-6 md:p-10 bg-[#161616] border-b border-white/5 flex justify-between items-center">
+      <div class="flex items-center gap-4 md:gap-5">
         <div class="relative">
           <div
-            class="w-10 h-10 bg-[#D4AF37] rounded-full flex items-center justify-center text-black text-xs font-black">
+            class="w-8 h-8 md:w-10 md:h-10 bg-[#D4AF37] rounded-full flex items-center justify-center text-black text-[10px] md:text-xs font-black">
             LV</div>
-          <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-4 border-[#161616] rounded-full"></div>
+          <div
+            class="absolute -bottom-1 -right-1 w-3 h-3 md:w-4 md:h-4 bg-green-500 border-2 md:border-4 border-[#161616] rounded-full">
+          </div>
         </div>
         <div>
-          <h3 class="uppercase tracking-[4px] text-[10px] font-black text-[#D4AF37] mb-1">The Palm Concierge</h3>
-          <p class="text-[10px] text-white/40 tracking-widest">Active • Caesars Palace</p>
+          <h3
+            class="uppercase tracking-[2px] md:tracking-[4px] text-[9px] md:text-[10px] font-black text-[#D4AF37] mb-0.5 md:mb-1">
+            The Palm Concierge</h3>
+          <p class="text-[8px] md:text-[10px] text-white/40 tracking-widest">Active • Caesars Palace</p>
         </div>
       </div>
-      <button id="chat-close" class="text-white/30 hover:text-white text-xl transition-all">✕</button>
+      <button id="chat-close" class="text-white/30 hover:text-white text-lg md:text-xl transition-all">✕</button>
     </div>
-    <div id="chat-messages" class="flex-1 p-10 overflow-y-auto space-y-8 flex flex-col hide-scrollbar">
+    <div id="chat-messages"
+      class="flex-1 p-6 md:p-10 overflow-y-auto space-y-6 md:space-y-8 flex flex-col hide-scrollbar">
       <div
-        class="bg-white/[0.03] p-6 rounded-2xl rounded-bl-none text-[13px] max-w-[90%] leading-relaxed border border-white/5 text-white/60 font-light">
+        class="bg-white/[0.03] p-5 md:p-6 rounded-2xl rounded-bl-none text-[12px] md:text-[13px] max-w-[90%] md:max-w-[90%] leading-relaxed border border-white/5 text-white/60 font-light">
         Good evening. How may I assist you with your table today?
       </div>
     </div>
-    <form id="chat-form" class="p-8 bg-[#161616] border-t border-white/5 flex gap-5">
+    <form id="chat-form" class="p-6 md:p-8 bg-[#161616] border-t border-white/5 flex gap-3 md:gap-5">
       <input type="text" id="chat-input" placeholder="Type your inquiry..."
-        class="flex-1 bg-black/40 border border-white/10 p-5 rounded-2xl text-[13px] text-white outline-none focus:border-[#D4AF37]/50 transition-all placeholder:text-white/20"
+        class="flex-1 bg-black/40 border border-white/10 p-4 md:p-5 rounded-2xl text-[12px] md:text-[13px] text-white outline-none focus:border-[#D4AF37]/50 transition-all placeholder:text-white/20"
         autocomplete="off">
       <button type="submit"
-        class="bg-[#D4AF37] text-black w-14 h-14 rounded-2xl flex items-center justify-center text-lg hover:bg-white transition-all shadow-xl shadow-[#D4AF37]/10 flex-shrink-0">
+        class="bg-[#D4AF37] text-black w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center text-md md:text-lg hover:bg-white transition-all shadow-xl shadow-[#D4AF37]/10 flex-shrink-0">
         ✈
       </button>
     </form>
@@ -334,12 +374,28 @@
   <!-- SCRIPTS: Core Interaction -->
   <script>
     // CORE SETUP
-    const videoContainer = document.querySelector('.pointer-events-none');
-    const heroContent = document.querySelector('.animate-fade-in');
+    const mobileToggle = document.getElementById('mobile-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileLinks = mobileMenu.querySelectorAll('a');
 
     window.addEventListener('load', () => {
       if (videoContainer) videoContainer.style.opacity = '1';
       if (heroContent) heroContent.style.opacity = '1';
+    });
+
+    // MOBILE MENU LOGIC
+    mobileToggle.onclick = () => {
+      mobileToggle.classList.toggle('active');
+      mobileMenu.classList.toggle('translate-x-full');
+      document.body.classList.toggle('overflow-hidden');
+    };
+
+    mobileLinks.forEach(link => {
+      link.onclick = () => {
+        mobileToggle.classList.remove('active');
+        mobileMenu.classList.add('translate-x-full');
+        document.body.classList.remove('overflow-hidden');
+      };
     });
 
     // HEADER SCROLL LOGIC
