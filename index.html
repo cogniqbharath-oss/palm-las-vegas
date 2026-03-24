@@ -363,10 +363,30 @@
       </div>
     </div>
     <div id="chat-messages"
-      class="flex-1 p-6 md:p-10 overflow-y-auto space-y-6 md:space-y-8 flex flex-col hide-scrollbar">
+      class="flex-1 p-6 md:p-10 overflow-y-auto space-y-6 md:space-y-8 flex flex-col hide-scrollbar relative">
       <div
-        class="bg-white/[0.03] p-5 md:p-6 rounded-2xl rounded-bl-none text-[12px] md:text-[13px] max-w-[90%] md:max-w-[90%] leading-relaxed border border-white/5 text-white/60 font-light">
-        Good evening. How may I assist you with your table today?
+        class="bg-white/[0.03] p-5 md:p-6 rounded-2xl rounded-bl-none text-[12px] md:text-[13px] max-w-[90%] md:max-w-[90%] leading-relaxed border border-white/5 text-white/60 font-light translate-y-4 opacity-0 animate-[fadeIn_0.5s_forwards]">
+        Welcome to The Palm, Las Vegas. I am your Virtual Concierge. I can assist with reservations, menu details, or
+        the history of our legendary caricatures. How may I serve you?
+      </div>
+
+      <!-- QUICK CHIPS -->
+      <div class="flex flex-wrap gap-2 md:gap-3 px-1">
+        <button onclick="sendQuick('Table for 2 tonight?')"
+          class="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-[10px] text-white/60 hover:bg-[#D4AF37]/20 hover:text-[#D4AF37] hover:border-[#D4AF37]/40 transition-all font-bold">Reservations</button>
+        <button onclick="sendQuick('Show me the signature cuts')"
+          class="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-[10px] text-white/60 hover:bg-[#D4AF37]/20 hover:text-[#D4AF37] hover:border-[#D4AF37]/40 transition-all font-bold">Menu
+          Highlights</button>
+        <button onclick="sendQuick('When is Prime Time?')"
+          class="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-[10px] text-white/60 hover:bg-[#D4AF37]/20 hover:text-[#D4AF37] hover:border-[#D4AF37]/40 transition-all font-bold">Happy
+          Hour</button>
+      </div>
+
+      <div id="typing-indicator"
+        class="hidden flex items-center gap-2 p-5 bg-white/[0.02] border border-white/5 rounded-2xl self-start">
+        <div class="w-1.5 h-1.5 bg-[#D4AF37] rounded-full animate-bounce"></div>
+        <div class="w-1.5 h-1.5 bg-[#D4AF37] rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+        <div class="w-1.5 h-1.5 bg-[#D4AF37] rounded-full animate-bounce [animation-delay:-0.3s]"></div>
       </div>
     </div>
     <form id="chat-form" class="p-6 md:p-8 bg-[#161616] border-t border-white/5 flex gap-3 md:gap-5">
@@ -472,6 +492,11 @@
       appendMsg(val, true);
       input.value = '';
 
+      const indicator = document.getElementById('typing-indicator');
+      indicator.classList.remove('hidden');
+      messages.appendChild(indicator);
+      messages.scrollTop = messages.scrollHeight;
+
       try {
         const response = await fetch(WORKER_API, {
           method: 'POST',
@@ -479,8 +504,10 @@
           body: JSON.stringify({ prompt: val })
         });
         const data = await response.json();
+        indicator.classList.add('hidden');
         appendMsg(data.response || "My apologies, I am briefly unavailable to respond. Please inquire again momentarily.");
       } catch (error) {
+        indicator.classList.add('hidden');
         const err = document.createElement('div');
         err.className = "text-[10px] text-white/20 text-center tracking-[4px] uppercase mt-4 mb-2";
         err.textContent = "Connection reset — I remain at your service.";
@@ -488,6 +515,11 @@
       }
       messages.scrollTop = messages.scrollHeight;
     };
+
+    function sendQuick(text) {
+      input.value = text;
+      form.dispatchEvent(new Event('submit'));
+    }
   </script>
 </body>
 
