@@ -57,6 +57,7 @@
         #mobile-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
         #mobile-toggle.active span:nth-child(2) { opacity: 0; }
         #mobile-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
+        .mic-active { @apply animate-pulse bg-red-500/20 text-red-500 border-red-500/50 shadow-[0_0_20px_rgba(239,68,68,0.3)]; }
     </style>
 </head>
 
@@ -389,12 +390,21 @@
         <div class="w-1.5 h-1.5 bg-[#D4AF37] rounded-full animate-bounce [animation-delay:-0.3s]"></div>
       </div>
     </div>
-    <form id="chat-form" class="p-6 md:p-8 bg-[#161616] border-t border-white/5 flex gap-3 md:gap-5">
-      <input type="text" id="chat-input" placeholder="Type your inquiry..."
+    <form id="chat-form" class="p-6 md:p-8 bg-[#161616] border-t border-white/5 flex gap-3 md:gap-4 items-center">
+      <button type="button" id="chat-mic"
+        class="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-[#D4AF37] hover:border-[#D4AF37]/50 transition-all flex-shrink-0">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+          <line x1="12" y1="19" x2="12" y2="23"></line>
+          <line x1="8" y1="23" x2="16" y2="23"></line>
+        </svg>
+      </button>
+      <input type="text" id="chat-input" placeholder="Type or speak..."
         class="flex-1 bg-black/40 border border-white/10 p-4 md:p-5 rounded-2xl text-[12px] md:text-[13px] text-white outline-none focus:border-[#D4AF37]/50 transition-all placeholder:text-white/20"
         autocomplete="off">
       <button type="submit"
-        class="bg-[#D4AF37] text-black w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center text-md md:text-lg hover:bg-white transition-all shadow-xl shadow-[#D4AF37]/10 flex-shrink-0">
+        class="bg-[#D4AF37] text-black w-14 h-14 rounded-2xl flex items-center justify-center text-md hover:bg-white transition-all shadow-xl shadow-[#D4AF37]/10 flex-shrink-0">
         ✈
       </button>
     </form>
@@ -447,10 +457,44 @@
     const close = document.getElementById('chat-close');
     const clear = document.getElementById('chat-clear');
     const form = document.getElementById('chat-form');
+    const mic = document.getElementById('chat-mic');
     const input = document.getElementById('chat-input');
     const messages = document.getElementById('chat-messages');
 
     const WORKER_API = 'https://fragrant-unit-9548.cogniq-bharath.workers.dev/';
+
+    // VOICE: Speech Recognition
+    const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognition;
+    if (Recognition) {
+      recognition = new Recognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
+
+      recognition.onstart = () => mic.classList.add('mic-active');
+      recognition.onend = () => mic.classList.remove('mic-active');
+      recognition.onresult = (e) => {
+        const transcript = e.results[0][0].transcript;
+        input.value = transcript;
+        form.dispatchEvent(new Event('submit'));
+      };
+    }
+
+    // VOICE: Text-to-Speech
+    function speak(text) {
+      const synth = window.speechSynthesis;
+      if (synth.speaking) synth.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 0.95;
+      utterance.pitch = 1.0;
+      utterance.volume = 0.8;
+      // Get a sophisticated voice if available
+      const voices = synth.getVoices();
+      utterance.voice = voices.find(v => v.name.includes('Google UK English Male')) || voices[0];
+      synth.speak(utterance);
+    }
+
+    mic.onclick = () => recognition ? recognition.start() : alert('Microphone access unavailable.');
 
     trigger.onclick = () => {
       const isActive = !windowChat.classList.contains('invisible');
@@ -505,7 +549,9 @@
         });
         const data = await response.json();
         indicator.classList.add('hidden');
-        appendMsg(data.response || "My apologies, I am briefly unavailable to respond. Please inquire again momentarily.");
+        const aiMsg = data.response || "My apologies, I am briefly unavailable to respond. Please inquire again momentarily.";
+        appendMsg(aiMsg);
+        speak(aiMsg);
       } catch (error) {
         indicator.classList.add('hidden');
         const err = document.createElement('div');
